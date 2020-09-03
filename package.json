@@ -1,0 +1,45 @@
+{
+  "name": "@thejellyfish/request",
+  "description": "Fetch wrapper to easily request an API",
+  "keywords": [
+    "fetch",
+    "api",
+    "endpoint"
+  ],
+  "license": "MIT",
+  "author": "thejellyfish <the@jellyfish-commuting.com>",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "coverage": "codecov"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "codecov": "^3.7.0",
+    "jest": "^25.2.0",
+    "node-fetch": "^2.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thejellyfish/request.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thejellyfish/request/issues"
+  },
+  "homepage": "https://github.com/thejellyfish/request#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "index.js"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text-summary"
+    ]
+  }
+}
