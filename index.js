@@ -89,10 +89,6 @@ export default (method, endpoint, data = null, headers = {}) => {
         fetchingSuccess(response);
 
         return payload;
-      })
-      .catch(error => {
-        error.status = response.status;
-        throw error;
       }))
 
     // Error
