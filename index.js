@@ -1,4 +1,4 @@
-import _queryString from '@jellyfish-commuting/helpers/_queryString';
+import { _queryString } from '@jellyfish-commuting/helpers';
 
 // Debug
 /* eslint-disable object-curly-newline */
@@ -15,7 +15,7 @@ function debug({ method, url, params, status, payload }) {
 /* eslint-enable object-curly-newline */
 
 // Create native fetch
-export default (endpoint, { method = 'GET', headers: {}, data }) => {
+module.exports = function (endpoint, { method = 'GET', headers: {}, data }) {
   // Init
   const params = {
     method,
