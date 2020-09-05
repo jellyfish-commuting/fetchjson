@@ -1,3 +1,5 @@
+import _queryString from '@jellyfish-commuting/helpers/_queryString';
+
 // Debug
 /* eslint-disable object-curly-newline */
 function debug({ method, url, params, status, payload }) {
@@ -12,97 +14,47 @@ function debug({ method, url, params, status, payload }) {
 }
 /* eslint-enable object-curly-newline */
 
-// Callback
-let fetchingWillStart = () => null;
-let fetchingComplete = () => null;
-let fetchingSuccess = () => null;
-let fetchingError = () => null;
-
-export const onFetchingWillStart = callback => fetchingWillStart = callback;
-export const onFetchingComplete = callback => fetchingComplete = callback;
-export const onFetchingSuccess = callback => fetchingSuccess = callback;
-export const onFetchingError = callback => fetchingError = callback;
-
 // Create native fetch
-export default (method, endpoint, data = null, headers = {}) => {
-  // Merge params with callback results
-  const mutated = {
-    method,
-    endpoint,
-    data,
-    headers,
-    ...fetchingWillStart({ method, endpoint, data, headers }) || {},
-  };
-
+export default (endpoint, { method = 'GET', headers: {}, data }) => {
   // Init
   const params = {
-    method: mutated.method,
+    method,
     headers: {
       'Content-Type': 'application/json',
-      ...mutated.headers,
+      ...headers,
     },
   };
 
   // Init url
-  let url = mutated.endpoint;
+  let url = endpoint;
 
   // Data ?
-  if (mutated.data) {
+  if (data) {
     // Query params ?
     if (params.method === 'GET' || params.method === 'HEAD') {
-      // Convert object data to query string ie { q: 'lorem', z: 'boom', ... } to q=lorem&z=boom
-      url += '?';
-      url += Object.keys(mutated.data).reduce((acc, key) => {
-        if (Array.isArray(mutated.data[key])) {
-          return acc.concat(mutated.data[key].map(item => `${key}[]=${item}`).join('&'));
-        }
+      url += `?${_queryString(data)}`;
 
-        return acc.concat(`${key}=${mutated.data[key]}`);
-      }, []).join('&');
-
-    // ... body params
+    // Stringify data
     } else {
-      // Stringify data
-      params.body = JSON.stringify(mutated.data);
+      params.body = JSON.stringify(data);
     }
   }
 
-  // Return native fetch Request
-  /* eslint-disable object-curly-newline */
+  // Return native fetch
   return fetch(url, params)
-
-    // Get response in JSON
-    .then(response => response.json()
-      .then(payload => {
-        // Log
-        debug({ method, url, params, payload, status: response.status });
-
-        // Error ?
-        if (!response.ok) {
-          const error = new Error(payload.message);
-          error.status = response.status;
-
-          throw error;
-        }
-
-        // Success callback
-        fetchingSuccess(response);
-
-        return payload;
-      }))
-
-    // Error
-    .catch(error => {
+    // Get response
+    .then(response => response.json().then(payload => {
       // Log
-      debug({ method, url, params, payload: error, status: error.status });
+      debug({ method, url, params, payload, status: response.status });
 
-      // Error callback
-      fetchingError(error);
+      // Error ?
+      if (!response.ok) {
+        const error = new Error(payload.message);
+        error.status = response.status;
 
-      throw error;
-    })
+        throw error;
+      }
 
-    // End fetching ...
-    .finally(fetchingComplete);
-  /* eslint-enable object-curly-newline */
+      return payload;
+    }));
 };

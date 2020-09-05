@@ -1,11 +1,7 @@
 {
-  "name": "@thejellyfish/request",
+  "name": "@jellyfish-commuting/fetchjson",
   "description": "Fetch wrapper to easily request an API",
-  "keywords": [
-    "fetch",
-    "api",
-    "endpoint"
-  ],
+  "keywords": ["fetch", "json", "api"],
   "license": "MIT",
   "author": "thejellyfish <the@jellyfish-commuting.com>",
   "main": "index.js",
@@ -23,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/thejellyfish/request.git"
+    "url": "git://github.com/jellyfish-commuting/fetchjson.git"
   },
   "bugs": {
-    "url": "https://github.com/thejellyfish/request/issues"
+    "url": "https://github.com/jellyfish-commuting/fetchjson/issues"
   },
-  "homepage": "https://github.com/thejellyfish/request#readme",
+  "homepage": "https://github.com/jellyfish-commuting/fetchjson#readme",
   "publishConfig": {
     "access": "public"
   },
