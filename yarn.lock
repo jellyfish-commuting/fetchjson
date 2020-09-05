@@ -871,10 +871,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jellyfish-commuting/helpers@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@jellyfish-commuting/helpers/-/helpers-0.1.1.tgz#e5284fb4137d8f5215640bae4bf4bab8e307b3fb"
-  integrity sha512-u7IcdcXbcIuQrrguNv7NNUTuVRjnUs0kJwCNekQDF3Hm2AXvyla1T19sFnCfG3csJdxoeER9WLRMFXd97Z6QqA==
+"@jellyfish-commuting/helpers@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@jellyfish-commuting/helpers/-/helpers-0.1.2.tgz#7f74b4637e7c386ada40b9b86ba4a1d202d416ea"
+  integrity sha512-9vO8d35q2oYEuc5MCMG3Y+kZHfhGp3VP+NalbCinxfo6Zp1eoV1I4jAIY+XiPDu/iKlCF21zK5obSaTh8+e6SQ==
 
 "@jest/console@^25.5.0":
   version "25.5.0"
