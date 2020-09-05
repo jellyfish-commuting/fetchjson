@@ -1,4 +1,4 @@
-import _queryString from '@jellyfish-commuting/helpers/_queryString';
+import _queryString from '@jellyfish-commuting/helpers/_queryString';
 
 // Debug
 /* eslint-disable object-curly-newline */

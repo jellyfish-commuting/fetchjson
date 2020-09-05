@@ -1,7 +1,11 @@
 {
   "name": "@jellyfish-commuting/fetchjson",
   "description": "Fetch wrapper to easily request an API",
-  "keywords": ["fetch", "json", "api"],
+  "keywords": [
+    "fetch",
+    "json",
+    "api"
+  ],
   "license": "MIT",
   "author": "thejellyfish <the@jellyfish-commuting.com>",
   "main": "index.js",
@@ -9,10 +13,13 @@
     "test": "jest",
     "coverage": "codecov"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@jellyfish-commuting/helpers": "^0.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
+    "babel-jest": "^26.3.0",
     "codecov": "^3.7.0",
     "jest": "^25.2.0",
     "node-fetch": "^2.6.0"
