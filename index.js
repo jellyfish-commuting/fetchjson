@@ -2,10 +2,10 @@ const { _queryString } = require('@jellyfish-commuting/helpers');
 
 // Debug
 /* eslint-disable object-curly-newline */
-function debug({ method, url, params, status, payload }) {
+function debug({ url, params, status, payload }) {
   if (process.env.NODE_ENV !== 'production') {
     console.groupCollapsed('API debug');
-    console.log('%c URL : ', 'color: #912599', `${method} ${url}`);
+    console.log('%c URL : ', 'color: #912599', `${params.method || 'GET'} ${url}`);
     console.log('%c Params : ', 'color: #912599', params);
     console.log('%c Status : ', 'color: #912599', status);
     console.log('%c Response : ', 'color: #912599', payload);
@@ -15,13 +15,20 @@ function debug({ method, url, params, status, payload }) {
 /* eslint-enable object-curly-newline */
 
 // Create native fetch
-module.exports = function (endpoint, { method = 'GET', headers = {}, data }) {
-  // Init
+module.exports = function (endpoint, {
+  onStart = () => null,
+  onResponse = () => null,
+  onComplete = () => null,
+  onError = () => null,
+  data,
+  ...init
+}) {
+  // Init params
   const params = {
-    method,
+    ...init,
     headers: {
       'Content-Type': 'application/json',
-      ...headers,
+      ...init.headers,
     },
   };
 
@@ -31,7 +38,7 @@ module.exports = function (endpoint, { method = 'GET', headers = {}, data }) {
   // Data ?
   if (data) {
     // Query params ?
-    if (params.method === 'GET' || params.method === 'HEAD') {
+    if (!params.method || params.method === 'GET' || params.method === 'HEAD') {
       url += `?${_queryString(data)}`;
 
     // Stringify data
@@ -40,21 +47,37 @@ module.exports = function (endpoint, { method = 'GET', headers = {}, data }) {
     }
   }
 
+  // Hook onStart
+  onStart(url, params);
+
   // Return native fetch
   return fetch(url, params)
     // Get response
-    .then(response => response.json().then(payload => {
-      // Log
-      debug({ method, url, params, payload, status: response.status });
+    .then(response => {
+      // Hook onResponse
+      onResponse(response);
 
-      // Error ?
-      if (!response.ok) {
-        const error = new Error(payload.message);
-        error.status = response.status;
+      // Return response in JSON
+      return response.json().then(payload => {
+        // Log
+        debug({ url, params, payload, status: response.status });
 
-        throw error;
-      }
+        // Error ?
+        if (!response.ok) {
+          const error = new Error(payload.message);
+          error.status = response.status;
 
-      return payload;
-    }));
+          throw error;
+        }
+
+        return payload;
+      });
+    })
+    // Hook onError
+    .catch(error => {
+      onError(error);
+      throw error;
+    })
+    // Hook onComplete
+    .finally(onComplete);
 };
