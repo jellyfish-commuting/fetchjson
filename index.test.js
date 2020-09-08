@@ -5,7 +5,7 @@ global.fetch = require('node-fetch');
 describe('fetchjson', () => {
   // Fetch data successfully
   it('expect JSON while fetching public API', async () => {
-    const result = await fetchjson('https://randomuser.me/api/', { data: { results: 1 } });
+    const result = await fetchjson('https://randomuser.me/api/', { results: 1 });
 
     expect(result).toMatchObject(
       expect.objectContaining({
@@ -15,23 +15,17 @@ describe('fetchjson', () => {
   });
 
   // Callback
-  it('expect callbacks working while fetching public API', async () => {
-    // Init flags
-    let start = null;
+  it('expect callback _response working while fetching public API', async () => {
+    // Init flag
     let response = null;
-    let complete = null;
 
     // Fetch
-    await fetchjson('https://randomuser.me/api/', {
-      data: { results: 1 },
-      onStart: () => start = true,
-      onResponse: () => response = true,
-      onComplete: () => complete = true,
-    });
+    await fetchjson('https://randomuser.me/api/', { results: 1 }, { _response: r => response = r });
 
     // Tests
-    expect(start).toBe(true);
-    expect(response).toBe(true);
-    expect(complete).toBe(true);
+    expect(response).toEqual(expect.objectContaining({
+      ok: expect.any(Boolean),
+      status: expect.any(Number),
+    }));
   });
 });

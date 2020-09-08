@@ -15,25 +15,26 @@ function debug({ url, params, status, payload }) {
 /* eslint-enable object-curly-newline */
 
 // Create native fetch
-module.exports = function (endpoint, {
-  onStart = () => null,
-  onResponse = () => null,
-  onComplete = () => null,
-  onError = () => null,
-  data,
-  ...init
-}) {
+module.exports = function (endpoint, data, options = {}) {
   // Init params
+  const { _response = () => null, headers = {}, ...init } = options;
   const params = {
     ...init,
     headers: {
       'Content-Type': 'application/json',
-      ...init.headers,
+      ...headers,
     },
   };
 
   // Init url
   let url = endpoint;
+
+  // Endpoint start with GET|POST|PUT|PATCH|DELETE|HEAD|CONNECT|OPTIONS|TRACE
+  const parts = endpoint.split(' ');
+  if (['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'CONNECT', 'OPTIONS', 'TRACE'].includes(parts[0])) {
+    url = endpoint.slice(parts[0].length + 1);
+    params.method = parts[0];
+  }
 
   // Data ?
   if (data) {
@@ -47,15 +48,12 @@ module.exports = function (endpoint, {
     }
   }
 
-  // Hook onStart
-  onStart(url, params);
-
   // Return native fetch
   return fetch(url, params)
     // Get response
     .then(response => {
-      // Hook onResponse
-      onResponse(response);
+      // Hook response
+      _response(response);
 
       // Return response in JSON
       return response.json().then(payload => {
@@ -72,12 +70,5 @@ module.exports = function (endpoint, {
 
         return payload;
       });
-    })
-    // Hook onError
-    .catch(error => {
-      onError(error);
-      throw error;
-    })
-    // Hook onComplete
-    .finally(onComplete);
+    });
 };
