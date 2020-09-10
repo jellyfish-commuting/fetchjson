@@ -2,6 +2,7 @@ const fetchjson = require('./index');
 global.fetch = require('node-fetch');
 
 // Start tests ...
+/* eslint-disable no-undef */
 describe('fetchjson', () => {
   // Fetch data successfully
   it('expect JSON while fetching public API', async () => {
@@ -10,7 +11,7 @@ describe('fetchjson', () => {
     expect(result).toMatchObject(
       expect.objectContaining({
         results: expect.any(Array),
-      })
+      }),
     );
   });
 
@@ -20,6 +21,7 @@ describe('fetchjson', () => {
     let response = null;
 
     // Fetch
+    // eslint-disable-next-line no-return-assign
     await fetchjson('https://randomuser.me/api/', { results: 1 }, { _response: r => response = r });
 
     // Tests

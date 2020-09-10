@@ -1,7 +1,7 @@
 const { _queryString } = require('@jellyfish-commuting/helpers');
 
 // Debug
-/* eslint-disable object-curly-newline */
+/* eslint-disable object-curly-newline, no-console */
 function debug({ url, params, status, payload }) {
   if (process.env.NODE_ENV !== 'production') {
     console.groupCollapsed('API debug');
@@ -12,7 +12,7 @@ function debug({ url, params, status, payload }) {
     console.groupEnd('API debug');
   }
 }
-/* eslint-enable object-curly-newline */
+/* eslint-enable object-curly-newline, no-console */
 
 // Create native fetch
 module.exports = function (endpoint, data, options = {}) {
@@ -49,6 +49,7 @@ module.exports = function (endpoint, data, options = {}) {
   }
 
   // Return native fetch
+  // eslint-disable-next-line no-undef
   return fetch(url, params)
     // Get response
     .then(response => {
@@ -58,6 +59,7 @@ module.exports = function (endpoint, data, options = {}) {
       // Return response in JSON
       return response.json().then(payload => {
         // Log
+        // eslint-disable-next-line object-curly-newline
         debug({ url, params, payload, status: response.status });
 
         // Error ?

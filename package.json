@@ -21,6 +21,9 @@
     "@babel/preset-env": "^7.11.5",
     "babel-jest": "^26.3.0",
     "codecov": "^3.7.0",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
     "jest": "^25.2.0",
     "node-fetch": "^2.6.0"
   },
