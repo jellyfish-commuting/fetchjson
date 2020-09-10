@@ -1,4 +1,4 @@
-const { _queryString } = require('@jellyfish-commuting/helpers');
+const { _queryString } = require('@jellyfish-commuting/helpers');
 
 // Debug
 /* eslint-disable object-curly-newline */
