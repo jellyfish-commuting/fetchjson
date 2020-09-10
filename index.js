@@ -17,7 +17,7 @@ function debug({ url, params, status, payload }) {
 // Create native fetch
 module.exports = function (endpoint, data, options = {}) {
   // Init params
-  const { _response = () => null, headers = {}, ...init } = options;
+  const { _response = () => null, headers, ...init } = options;
   const params = {
     ...init,
     headers: {
