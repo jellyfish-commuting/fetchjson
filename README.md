@@ -44,7 +44,11 @@ fetchjson('PUT https://fake-api.io/v1/users/1', { firstname: 'Johnna' })
 fetchjson('DELETE https://fake-api.io/v1/users/1')
   .then(response => console.log(response));
 
-// Example: Create function to be used in whole app
+/**
+ * Example: 
+ * --------
+ * Create function to be used in whole app
+ */
 function myfetch(endpoint, data, params) {
   return fetch(endpoint, data, { ...params, _hostname: 'https://fake-api.io' });
 }
