@@ -1,11 +1,10 @@
 const { _queryString, _trimStart } = require('@jellyfish-commuting/helpers');
 
 // Create native fetch
-module.exports = function (endpoint, data, options = {}) {
+function fetchjson(endpoint, data, options = {}) {
   // Extract options
   const {
     _response = () => null,
-    _hostname,
     headers,
     ...init
   } = options;
@@ -30,8 +29,8 @@ module.exports = function (endpoint, data, options = {}) {
   }
 
   // Add hostname ?
-  if (_hostname && !url.includes(_hostname)) {
-    url = `${_hostname}/${_trimStart(url, '/')}`;
+  if (fetchjson._hostname && !url.includes(fetchjson._hostname)) {
+    url = `${fetchjson._hostname}/${_trimStart(url, '/')}`;
   }
 
   // Data ?
@@ -68,3 +67,6 @@ module.exports = function (endpoint, data, options = {}) {
       });
     });
 };
+
+// Export
+module.exports = fetchjson;
