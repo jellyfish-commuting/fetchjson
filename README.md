@@ -11,8 +11,8 @@ Simply create a native fetch initialized with :
 - return a json response    
 
 
-
 ### Install
+
 ```bash
 yarn add @jellyfish-commuting/fetchjson
 ```
@@ -21,18 +21,15 @@ or
 npm install @jellyfish-commuting/fetchjson
 ```
 ### Usage
+
 ```javascript
 import fetchjson from '@jellyfish-commuting/fetchjson';
 
-// Fetch data
-fetchjson('https://fake-api.io/v1/users')
-  .then(response => console.log(response));
-  
-// Pass params: https://fake-api.io/users?limit=10
+// Fetch data with query params: https://fake-api.io/users?limit=10
 fetchjson('https://fake-api.io/v1/users', { limit: 10 })
   .then(response => console.log(response));
 
-// Create 
+// Create
 fetchjson('POST https://fake-api.io/v1/users', { firstname: 'John', lastname: 'Doe' })
   .then(response => console.log(response));
 
