@@ -50,7 +50,7 @@ fetchjson('DELETE https://fake-api.io/v1/users/1')
  * Create function to be used in whole app
  */
 function myfetch(endpoint, data, params) {
-  return fetch(endpoint, data, { ...params, _hostname: 'https://fake-api.io' });
+  return fetchjson(endpoint, data, { ...params, _hostname: 'https://fake-api.io' });
 }
 
 // Now, can request by
