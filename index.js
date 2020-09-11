@@ -1,19 +1,5 @@
 const { _queryString } = require('@jellyfish-commuting/helpers');
 
-// Debug
-/* eslint-disable object-curly-newline, no-console */
-function debug({ url, params, status, payload }) {
-  if (process.env.NODE_ENV !== 'production') {
-    console.groupCollapsed('API debug');
-    console.log('%c URL : ', 'color: #912599', `${params.method || 'GET'} ${url}`);
-    console.log('%c Params : ', 'color: #912599', params);
-    console.log('%c Status : ', 'color: #912599', status);
-    console.log('%c Response : ', 'color: #912599', payload);
-    console.groupEnd('API debug');
-  }
-}
-/* eslint-enable object-curly-newline, no-console */
-
 // Create native fetch
 module.exports = function (endpoint, data, options = {}) {
   // Init params
@@ -58,10 +44,6 @@ module.exports = function (endpoint, data, options = {}) {
 
       // Return response in JSON
       return response.json().then(payload => {
-        // Log
-        // eslint-disable-next-line object-curly-newline
-        debug({ url, params, payload, status: response.status });
-
         // Error ?
         if (!response.ok) {
           const error = new Error(payload.message);
