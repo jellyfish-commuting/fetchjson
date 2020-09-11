@@ -5,8 +5,7 @@
 [![Downloads](https://img.shields.io/npm/dt/@jellyfish-commuting/fetchjson)](https://www.npmjs.com/package/@jellyfish-commuting/fetchjson)
 
 # fetchjson
-Fetch wrapper to easily request an API    
-      
+Fetch wrapper to easily request an API          
 Simply create a native fetch initialized with :
 - header Content-Type=application/json  
 - return a json response    
@@ -45,7 +44,7 @@ fetchjson('PUT https://fake-api.io/users/1', { firstname: 'Johnna' })
 fetchjson('DELETE https://fake-api.io/users/1')
   .then(response => console.log(response));
 
-```javascript
+```
 
 ### Params
 
