@@ -9,6 +9,7 @@ Fetch wrapper to easily request an API
 Simply create a native fetch initialized with :
 - header Content-Type=application/json  
 - optional method prefix    `fetchjson('POST https://fake-api.io/v1/users')`
+- Set a default hostname
 - return a json response    
 
 
@@ -42,19 +43,13 @@ fetchjson('PUT https://fake-api.io/v1/users/1', { firstname: 'Johnna' })
 fetchjson('DELETE https://fake-api.io/v1/users/1')
   .then(response => console.log(response));
 
-/**
- * Example: 
- * --------
- * Create function to be used in whole app
- */
-function myfetch(endpoint, data, params) {
-  return fetchjson(endpoint, data, { ...params, _hostname: 'https://fake-api.io' });
-}
+// Set a default hostname
+fetchjson._hostname = 'https://fake-api.io';
 
 // Now, can request by
-myfetch('v1/users', { limit: 10 });  // hostname will be added
-myfetch('PUT v1/users/1', { firstname: 'Johnna' });  // hostname will be added
-myfetch('https://randomuser.me/api');  // hostname will NOT be added
+fetchjson('v1/users', { limit: 10 });  // hostname will be added
+fetchjson('PUT v1/users/1', { firstname: 'Johnna' });  // hostname will be added
+fetchjson('https://randomuser.me/api');  // hostname will NOT be added
 
 ```
 
