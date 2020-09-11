@@ -25,24 +25,34 @@ npm install @jellyfish-commuting/fetchjson
 import fetchjson from '@jellyfish-commuting/fetchjson';
 
 // Fetch data
-fetchjson('https://fake-api.io/users')
+fetchjson('https://fake-api.io/v1/users')
   .then(response => console.log(response));
   
 // Pass params: https://fake-api.io/users?limit=10
-fetchjson('https://fake-api.io/users', { limit: 10 })
+fetchjson('https://fake-api.io/v1/users', { limit: 10 })
   .then(response => console.log(response));
 
 // Create 
-fetchjson('POST https://fake-api.io/users', { firstname: 'John', lastname: 'Doe' })
+fetchjson('POST https://fake-api.io/v1/users', { firstname: 'John', lastname: 'Doe' })
   .then(response => console.log(response));
 
 // Update
-fetchjson('PUT https://fake-api.io/users/1', { firstname: 'Johnna' })
+fetchjson('PUT https://fake-api.io/v1/users/1', { firstname: 'Johnna' })
   .then(response => console.log(response));
 
 // Delete
-fetchjson('DELETE https://fake-api.io/users/1')
+fetchjson('DELETE https://fake-api.io/v1/users/1')
   .then(response => console.log(response));
+
+// Example: Create function to be used in whole app
+function myfetch(endpoint, data, params) {
+  return fetch(endpoint, data, { ...params, _hostname: 'https://fake-api.io' });
+}
+
+// Now, can request by
+myfetch('v1/users', { limit: 10 });  // hostname will be added
+myfetch('PUT v1/users/1', { firstname: 'Johnna' });  // hostname will be added
+myfetch('https://randomuser.me/api');  // hostname will NOT be added
 
 ```
 
