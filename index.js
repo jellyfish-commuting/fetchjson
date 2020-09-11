@@ -1,9 +1,16 @@
-const { _queryString } = require('@jellyfish-commuting/helpers');
+const { _queryString, _trimStart } = require('@jellyfish-commuting/helpers');
 
 // Create native fetch
 module.exports = function (endpoint, data, options = {}) {
+  // Extract options
+  const {
+    _response = () => null,
+    _hostname,
+    headers,
+    ...init
+  } = options;
+
   // Init params
-  const { _response = () => null, headers, ...init } = options;
   const params = {
     ...init,
     headers: {
@@ -20,6 +27,11 @@ module.exports = function (endpoint, data, options = {}) {
   if (['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'CONNECT', 'OPTIONS', 'TRACE'].includes(parts[0])) {
     url = endpoint.slice(parts[0].length + 1);
     params.method = parts[0];
+  }
+
+  // Add hostname ?
+  if (_hostname && !url.includes(_hostname)) {
+    url = `${_hostname}/${_trimStart(url, '/')}`;
   }
 
   // Data ?

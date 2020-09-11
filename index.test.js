@@ -15,6 +15,17 @@ describe('fetchjson', () => {
     );
   });
 
+  // Fetch data successfully
+  it('expect JSON while fetching with hostname', async () => {
+    const result = await fetchjson('api', { results: 1 }, { _hostname: 'https://randomuser.me' });
+
+    expect(result).toMatchObject(
+      expect.objectContaining({
+        results: expect.any(Array),
+      }),
+    );
+  });
+
   // Callback
   it('expect callback _response working while fetching public API', async () => {
     // Init flag
