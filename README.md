@@ -47,8 +47,8 @@ fetchjson('DELETE https://fake-api.io/v1/users/1')
 fetchjson._hostname = 'https://fake-api.io';
 
 // Now, can request by
-fetchjson('v1/users', { limit: 10 });  // hostname will be added
-fetchjson('PUT v1/users/1', { firstname: 'Johnna' });  // hostname will be added
+fetchjson('/v1/users', { limit: 10 });  // hostname will be added
+fetchjson('PUT /v1/users/1', { firstname: 'Johnna' });  // hostname will be added
 fetchjson('https://randomuser.me/api');  // hostname will NOT be added
 
 ```
