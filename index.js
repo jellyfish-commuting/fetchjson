@@ -4,8 +4,8 @@ const { _queryString, _trimStart } = require('@jellyfish-commuting/helpers');
 function fetchjson(endpoint, data, options = {}) {
   // Extract options
   const {
-    _hostname,
-    _credentials,
+    hostname,
+    authorization,
     _response = () => null,
     headers,
     ...init
@@ -31,13 +31,13 @@ function fetchjson(endpoint, data, options = {}) {
   }
 
   // Add hostname ?
-  if (_hostname && !url.startsWith('https://')) {
-    url = `${_hostname}/${_trimStart(url, '/')}`;
+  if (hostname && !url.startsWith('https://')) {
+    url = `${hostname}/${_trimStart(url, '/')}`;
   }
 
   // Add credentials ?
-  if (_credentials && url.startsWith(_hostname)) {
-    params.headers.Authorization = _credentials;
+  if (authorization && url.startsWith(hostname)) {
+    params.headers.Authorization = authorization;
   }
 
   // Data ?

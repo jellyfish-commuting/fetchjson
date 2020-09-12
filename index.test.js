@@ -18,7 +18,7 @@ describe('fetchjson', () => {
   // Fetch data successfully
   it('expect JSON while fetching with a default hostname', async () => {
     // Fetch
-    const result = await fetchjson('api', { results: 1 }, { _hostname: 'https://randomuser.me' });
+    const result = await fetchjson('api', { results: 1 }, { hostname: 'https://randomuser.me' });
 
     expect(result).toMatchObject(
       expect.objectContaining({
