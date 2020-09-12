@@ -7,12 +7,12 @@
 _for internal used only - Just draft idea to easily fetch API in our apps_
 
 # fetchjson
-Fetch wrapper to easily request an API          
+Fetch wrapper to easily request an API
 Simply create a native fetch initialized with :
-- header Content-Type=application/json  
+- header Content-Type=application/json
 - optional method prefix    `fetchjson('POST https://fake-api.io/v1/users')`
 - Set a default hostname
-- return a json response    
+- return a json response
 
 
 ### Install
@@ -46,12 +46,7 @@ fetchjson('DELETE https://fake-api.io/v1/users/1')
   .then(response => console.log(response));
 
 // Set a default hostname
-fetchjson._hostname = 'https://fake-api.io';
-
-// Now, can request by
-fetchjson('/v1/users', { limit: 10 });  // hostname will be added
-fetchjson('PUT /v1/users/1', { firstname: 'Johnna' });  // hostname will be added
-fetchjson('https://randomuser.me/api');  // hostname will NOT be added
+fetchjson('v1/users', { limit: 10 }, { _hostname = 'https://fake-api.io' });
 
 ```
 
