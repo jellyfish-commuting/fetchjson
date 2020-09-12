@@ -10,7 +10,7 @@ _for internal used only - Just draft idea to easily fetch API in our apps_
 Fetch wrapper to easily request an API, simply create a native fetch initialized with :
 - header Content-Type=application/json
 - optional method prefix    `fetchjson('POST https://fake-api.io/v1/users')`
-- default hostname & credentials params
+- default hostname & authorization credentials params
 - return a json response
 
 
@@ -45,7 +45,7 @@ fetchjson('DELETE https://fake-api.io/v1/users/1')
   .then(response => console.log(response));
 
 // Set a default hostname
-fetchjson('v1/users', { limit: 10 }, { _hostname = 'https://fake-api.io' });
+fetchjson('v1/users', { limit: 10 }, { hostname = 'https://fake-api.io' });
 
 ```
 
