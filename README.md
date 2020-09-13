@@ -71,7 +71,7 @@ fetchjson(url, data, init);
 | `hostname`      | `string`   | Prepend URL with hostname if url don't start by a domain                                 |
 | `authorization` | `string`   | Authorization header <br />Ignored if url don't start by `hostname` property             |
 | `grabResponse`  | `function` | callback to grab the response                                                            |
-
+    
 ```javascript
 const init = {
  hostname: 'https://fake-api.io',
