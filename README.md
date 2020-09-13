@@ -67,7 +67,7 @@ fetchjson(url, data, init);
 |-----------------|------------|------------------------------------------------------------------------------------------|
 | `hostname`      | `string`   | Prepend URL with hostname if url don't start by a domain                                 |
 | `Authorization` | `string`   | Authorization header <br />Ignored if no hostname or don't start by `hostname` property  |
-| `grabResponse`  | `function` | callback to grab the response                                                           |
+| `grabResponse`  | `function` | callback to grab the response                                                            |
 
 ```javascript
 const init = {
