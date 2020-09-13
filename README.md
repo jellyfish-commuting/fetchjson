@@ -72,7 +72,7 @@ fetchjson(url, data, init);
 ```javascript
 const init = {
  hostname: 'https://fake-api.io',
- Authorization 'Bearer API_KEY',
+ Authorization: 'Bearer API_KEY',
  grapResponse: response => {
    const header = response.headers.get('x-powered-by') || 'Unknow';
    console.log(`Powered by ${header}`),
