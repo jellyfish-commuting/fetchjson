@@ -28,22 +28,22 @@ import fetchjson from '@jellyfish-commuting/fetchjson';
 
 // Fetch data with query params: https://fake-api.io/users?limit=10
 fetchjson('https://fake-api.io/v1/users', { limit: 10 })
-  .then(response => console.log(response));
+  .then(payload => console.log(payload));
 
 // Create
 fetchjson('POST https://fake-api.io/v1/users', { 
  firstname: 'John', 
  lastname: 'Doe', 
 })
-  .then(response => console.log(response));
+  .then(payload => console.log(payload));
 
 // Update
 fetchjson('PUT https://fake-api.io/v1/users/1', { firstname: 'Johnna' })
-  .then(response => console.log(response));
+  .then(payload => console.log(payload));
 
 // Delete
 fetchjson('DELETE https://fake-api.io/v1/users/1')
-  .then(response => console.log(response));
+  .then(payload => console.log(payload));
 
 // Set a default hostname
 fetchjson('v1/users', { limit: 10 }, { hostname: 'https://fake-api.io' });
@@ -92,4 +92,4 @@ fetchjson('https://vendor-api.io/v1/my-account', init);
 
 ### Return value
 
-JSON response
+JSON response - [more infos](https://developer.mozilla.org/en-US/docs/Web/API/Body/json)
