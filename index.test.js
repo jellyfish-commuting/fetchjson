@@ -39,13 +39,13 @@ describe('fetchjson', () => {
   });
 
   // Callback
-  it('expect callback _response working while fetching API', async () => {
+  it('expect grab response while fetching API', async () => {
     // Init flag
     let response = null;
 
     // Fetch
     // eslint-disable-next-line no-return-assign
-    await fetchjson('https://randomuser.me/api/', { results: 1 }, { _response: r => response = r });
+    await fetchjson('https://randomuser.me/api/', { results: 1 }, { grabResponse: r => response = r });
 
     // Tests
     expect(response).toEqual(expect.objectContaining({

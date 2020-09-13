@@ -6,7 +6,7 @@ function fetchjson(endpoint, data, options = {}) {
   const {
     hostname,
     authorization,
-    _response = () => null,
+    grabResponse = () => null,
     headers,
     ...init
   } = options;
@@ -63,8 +63,8 @@ function fetchjson(endpoint, data, options = {}) {
   return fetch(url, params)
     // Get response
     .then(response => {
-      // Hook response
-      _response(response);
+      // Grab response
+      grabResponse(response);
 
       // Return response in JSON
       return response.json().then(payload => {
