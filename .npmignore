@@ -23,3 +23,7 @@ __test__
 __tests__
 *.test.*
 
+.babelrc
+.eslintrc.json
+.travis.yml
+yarn.lock

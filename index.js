@@ -21,13 +21,16 @@ function fetchjson(endpoint, data, options = {}) {
   };
 
   // Init url
-  let url = endpoint;
+  // eslint-disable-next-line prefer-const
+  let [prefix, url] = endpoint.split(' ');
 
-  // Endpoint start with GET|POST|PUT|PATCH|DELETE|HEAD|CONNECT|OPTIONS|TRACE
-  const parts = endpoint.split(' ');
-  if (['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'CONNECT', 'OPTIONS', 'TRACE'].includes(parts[0])) {
-    url = endpoint.slice(parts[0].length + 1);
-    params.method = parts[0];
+  // Endpoint prefix ?
+  if (url) {
+    params.method = prefix;
+
+  // ... no
+  } else {
+    url = prefix;
   }
 
   // Add hostname ?

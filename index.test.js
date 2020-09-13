@@ -16,6 +16,17 @@ describe('fetchjson', () => {
   });
 
   // Fetch data successfully
+  it('expect JSON while fetching with METHOD prefix', async () => {
+    const result = await fetchjson('GET https://randomuser.me/api/', { results: 1 });
+
+    expect(result).toMatchObject(
+      expect.objectContaining({
+        results: expect.any(Array),
+      }),
+    );
+  });
+
+  // Fetch data successfully
   it('expect JSON while fetching with a default hostname', async () => {
     // Fetch
     const result = await fetchjson('api', { results: 1 }, { hostname: 'https://randomuser.me' });
