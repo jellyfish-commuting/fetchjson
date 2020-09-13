@@ -6,22 +6,33 @@ global.fetch = require('node-fetch');
 describe('fetchjson', () => {
   // Fetch data successfully
   it('expect JSON while fetching API', async () => {
-    const result = await fetchjson('https://randomuser.me/api/', { results: 1 });
+    const result = await fetchjson('https://reqres.in/api/users', { per_page: 1 });
 
     expect(result).toMatchObject(
       expect.objectContaining({
-        results: expect.any(Array),
+        data: expect.any(Array),
       }),
     );
   });
 
   // Fetch data successfully
-  it('expect JSON while fetching with METHOD prefix', async () => {
-    const result = await fetchjson('GET https://randomuser.me/api/', { results: 1 });
+  it('expect JSON while fetching with GET prefix', async () => {
+    const result = await fetchjson('GET https://reqres.in/api/users', { per_page: 1 });
 
     expect(result).toMatchObject(
       expect.objectContaining({
-        results: expect.any(Array),
+        data: expect.any(Array),
+      }),
+    );
+  });
+
+  // Fetch data successfully
+  it('expect JSON while fetching with POST prefix', async () => {
+    const result = await fetchjson('POST https://reqres.in/api/users', { name: 'John' });
+
+    expect(result).toMatchObject(
+      expect.objectContaining({
+        name: 'John',
       }),
     );
   });
@@ -29,11 +40,11 @@ describe('fetchjson', () => {
   // Fetch data successfully
   it('expect JSON while fetching with a default hostname', async () => {
     // Fetch
-    const result = await fetchjson('api', { results: 1 }, { hostname: 'https://randomuser.me' });
+    const result = await fetchjson('users', { per_page: 1 }, { hostname: 'https://reqres.in/api' });
 
     expect(result).toMatchObject(
       expect.objectContaining({
-        results: expect.any(Array),
+        data: expect.any(Array),
       }),
     );
   });
@@ -45,7 +56,7 @@ describe('fetchjson', () => {
 
     // Fetch
     // eslint-disable-next-line no-return-assign
-    await fetchjson('https://randomuser.me/api/', { results: 1 }, { grabResponse: r => response = r });
+    await fetchjson('https://reqres.in/api/users', { per_page: 1 }, { grabResponse: r => response = r });
 
     // Tests
     expect(response).toEqual(expect.objectContaining({
