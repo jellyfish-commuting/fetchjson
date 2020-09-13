@@ -5,7 +5,7 @@ global.fetch = require('node-fetch');
 /* eslint-disable no-undef */
 describe('fetchjson', () => {
   // Fetch data successfully
-  it('expect JSON while fetching public API', async () => {
+  it('expect JSON while fetching API', async () => {
     const result = await fetchjson('https://randomuser.me/api/', { results: 1 });
 
     expect(result).toMatchObject(
@@ -39,7 +39,7 @@ describe('fetchjson', () => {
   });
 
   // Callback
-  it('expect callback _response working while fetching public API', async () => {
+  it('expect callback _response working while fetching API', async () => {
     // Init flag
     let response = null;
 

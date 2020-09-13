@@ -33,20 +33,23 @@ function fetchjson(endpoint, data, options = {}) {
     url = prefix;
   }
 
-  // Add hostname ?
-  if (hostname && !url.startsWith('https://')) {
-    url = `${hostname}/${_trimStart(url, '/')}`;
-  }
+  // Has default hostname ?
+  if (hostname) {
+    // Preprend hostname ?
+    if (!url.startsWith('https://')) {
+      url = `${hostname}/${_trimStart(url, '/')}`;
+    }
 
-  // Add credentials ?
-  if (authorization && url.startsWith(hostname)) {
-    params.headers.Authorization = authorization;
+    // Add credentials ?
+    if (authorization && url.startsWith(hostname)) {
+      params.headers.Authorization = authorization;
+    }
   }
 
   // Data ?
   if (data) {
     // Query params ?
-    if (!params.method || params.method === 'GET' || params.method === 'HEAD') {
+    if (!params.method || ['GET', 'HEAD', 'OPTIONS'].includes(params.method)) {
       url += `?${_queryString(data)}`;
 
     // Stringify data
