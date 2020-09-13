@@ -31,7 +31,10 @@ fetchjson('https://fake-api.io/v1/users', { limit: 10 })
   .then(response => console.log(response));
 
 // Create
-fetchjson('POST https://fake-api.io/v1/users', { firstname: 'John', lastname: 'Doe' })
+fetchjson('POST https://fake-api.io/v1/users', { 
+ firstname: 'John', 
+ lastname: 'Doe', 
+})
   .then(response => console.log(response));
 
 // Update
@@ -43,7 +46,7 @@ fetchjson('DELETE https://fake-api.io/v1/users/1')
   .then(response => console.log(response));
 
 // Set a default hostname
-fetchjson('v1/users', { limit: 10 }, { hostname = 'https://fake-api.io' });
+fetchjson('v1/users', { limit: 10 }, { hostname: 'https://fake-api.io' });
 
 ```
 
@@ -82,8 +85,9 @@ const init = {
 // Endpoint will be prepend with hostname
 fetchjson('POST v1/users', { firstname: 'John' }, init);
 
-// Authorization will be ignored because hostname is different than init.hostname
-fetchjson('https://vendor-api.io/v1/my-account', { firstname: 'John' }, init);
+// Authorization will be ignored 
+// -> hostname is different than init.hostname
+fetchjson('https://vendor-api.io/v1/my-account', init);
 ```
 
 ### Return value
