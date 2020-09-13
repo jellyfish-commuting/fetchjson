@@ -61,7 +61,7 @@ fetchjson(url, data, init);
 
 ### Extra params
 
-`init` argument can be extends with optionals properties
+`init` argument can be extends with following optional properties
 
 | Prop            | Type       |  Note                                     |
 |-----------------|------------|------------------------------------------------------------------------------------------|
