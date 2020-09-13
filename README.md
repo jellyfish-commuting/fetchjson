@@ -11,7 +11,6 @@ Fetch wrapper to easily request an API, simply create a native fetch initialized
 - header Content-Type=application/json
 - default hostname & authorization credentials params
 - optional method prefix    `fetchjson('POST https://fake-api.io/v1/users')`
-- return a json response
 
 
 ### Install
