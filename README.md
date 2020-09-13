@@ -55,7 +55,7 @@ fetchjson(url, data, init);
 
 | Prop   | Type     |  Note                                     |
 |--------|----------|-------------------------------------------|
-| `url`  | `string` | Endpoint to fetch |
+| `url`  | `string` | Endpoint to fetch - could be prefixed by a http method `fetchjson('POST https://fake-api.io/v1/users')` |
 | `data` | `object` | queryString or Body param according http method |
 | `init` | `object` | Init arg passed to native fetch see [fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
 
@@ -65,7 +65,7 @@ fetchjson(url, data, init);
 
 | Prop   | Type     |  Note                                     |
 |--------|----------|-------------------------------------------|
-| `hostname`  | `string` | Prepend URL with hostname 
+| `hostname`  | `string` | Prepend URL with hostname if url don't start by a domain
 | `Authorization` | `string` | Authorization header <br />Ignored if no hostname or don't start by `hostname` property  |
 | `grabResponse` | `function` | callback to catch the response  |
 
@@ -73,7 +73,10 @@ fetchjson(url, data, init);
 const init = {
  hostname: 'https://fake-api.io',
  Authorization 'Bearer API_KEY',
- grapResponse: response => console.log(`Powered by ${response.headers.get('x-powered-by') || 'Unknow'}`),
+ grapResponse: response => {
+   const header = response.headers.get('x-powered-by') || 'Unknow';
+   console.log(`Powered by ${header}`),
+ }
 };
 
 // Endpoint will be prepend with hostname
