@@ -12,7 +12,6 @@ Fetch wrapper to easily request an API, simply create a native fetch initialized
 - default hostname & authorization credentials params
 - optional method prefix    `fetchjson('POST https://fake-api.io/v1/users')`
 
-
 ### Install
 
 ```bash
@@ -56,10 +55,33 @@ fetchjson(url, data, init);
 
 | Prop   | Type     |  Note                                     |
 |--------|----------|-------------------------------------------|
-| `url`  | `string` | Could prefixed by a http method           |
-| `data` | `object` | queryString or Body param according http method  |
+| `url`  | `string` | Endpoint to fetch |
+| `data` | `object` | queryString or Body param according http method |
 | `init` | `object` | Init arg passed to native fetch see [fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
 
+### Extra params
+
+`init` argument can be extends with optionals properties
+
+| Prop   | Type     |  Note                                     |
+|--------|----------|-------------------------------------------|
+| `hostname`  | `string` | Prepend URL with hostname 
+| `Authorization` | `string` | Authorization header <br />Ignored if no hostname or don't start by `hostname` property  |
+| `grabResponse` | `function` | callback to catch the response  |
+
+```javascript
+const init = {
+ hostname: 'https://fake-api.io',
+ Authorization 'Bearer API_KEY',
+ grapResponse: response => console.log(`Powered by ${response.headers.get('x-powered-by') || 'Unknow'}`),
+};
+
+// Endpoint will be prepend with hostname
+fetchjson('POST v1/users', { firstname: 'John' }, init);
+
+// Authorization will be ignored because hostname is different than init.hostname
+fetchjson('https://vendor-api.io/v1/my-account', { firstname: 'John' }, init);
+```
 
 ### Return value
 
