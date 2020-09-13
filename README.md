@@ -52,7 +52,7 @@ fetchjson('v1/users', { limit: 10 }, { hostname = 'https://fake-api.io' });
 ### Params
 
 ```javascript
-fetchjson(url, data, params);
+fetchjson(url, data, init);
 ```
 
 | Prop   | Type     |  Note                                     |
