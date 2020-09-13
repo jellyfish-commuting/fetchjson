@@ -64,4 +64,4 @@ fetchjson(url, data, init);
 
 ### Return value
 
-Native fetch
+JSON response
