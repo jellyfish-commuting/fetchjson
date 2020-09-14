@@ -10,11 +10,11 @@
   "author": "thejellyfish <the@jellyfish-commuting.com>",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit",
     "coverage": "codecov"
   },
   "dependencies": {
-    "@jellyfish-commuting/helpers": "^0.1.7"
+    "@jellyfish-commuting/helpers": "^0.1.17"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
