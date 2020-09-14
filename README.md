@@ -35,15 +35,15 @@ fetchjson('POST https://fake-api.io/v1/users', {
  firstname: 'John', 
  lastname: 'Doe', 
 })
-  .then(payload => console.log(payload));
+  .then(({ id )} => console.log(`User #${id} created successfully !`));
 
 // Update
 fetchjson('PUT https://fake-api.io/v1/users/1', { firstname: 'Johnna' })
-  .then(payload => console.log(payload));
+  .then(() => console.log('User updated successfully !'));
 
 // Delete
 fetchjson('DELETE https://fake-api.io/v1/users/1')
-  .then(payload => console.log(payload));
+  .then(() => console.log('User deleted successfully !'));
 
 // Set a default hostname
 fetchjson('v1/users', { limit: 10 }, { hostname: 'https://fake-api.io' });
