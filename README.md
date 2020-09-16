@@ -27,18 +27,18 @@ npm install @jellyfish-commuting/fetchjson
 import fetchjson from '@jellyfish-commuting/fetchjson';
 
 // Fetch data with query params: https://fake-api.io/users?limit=10
-fetchjson('https://fake-api.io/v1/users', { limit: 10 })
+const params = { limit: 10 };
+fetchjson('https://fake-api.io/v1/users', params)
   .then(payload => console.log(payload));
 
 // Create
-fetchjson('POST https://fake-api.io/v1/users', { 
- firstname: 'John', 
- lastname: 'Doe', 
-})
+const data = { firstname: 'John', lastname: 'Doe' };
+fetchjson('POST https://fake-api.io/v1/users', data)
   .then(({ id )} => console.log(`User #${id} created successfully !`));
 
 // Update
-fetchjson('PUT https://fake-api.io/v1/users/1', { firstname: 'Johnna' })
+data.firstname = 'Johnna';
+fetchjson('PUT https://fake-api.io/v1/users/1', data)
   .then(() => console.log('User updated successfully !'));
 
 // Delete
@@ -46,13 +46,15 @@ fetchjson('DELETE https://fake-api.io/v1/users/1')
   .then(() => console.log('User deleted successfully !'));
 
 // Set a default hostname
-fetchjson('v1/users', { limit: 10 }, { hostname: 'https://fake-api.io' });
+const init = { hostname: 'https://fake-api.io' };
+fetchjson('v1/users', params, init);
 
 // Retrieve http response 
-fetchjson('https://fake-api.io/v1/users', { limit: 10 })
+// payload has a not enumerable prop "_response"
+fetchjson('https://fake-api.io/v1/users')
   .then(payload => {
-    const header = payload._response.headers.get('x-powered-by') || 'Unknow';
-    console.log(`Powered by ${header}`),
+    const header = payload._response.headers.get('x-powered-by');
+    console.log(`Powered by ${header || 'Unknow'}`),
   });
 ```
 
@@ -68,9 +70,7 @@ fetchjson(url, data, init);
 | `data` | `object` | queryString or Body param according http method                                                                                 |
 | `init*` | `object` | Init arg passed to native fetch - [see fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
 
-#### *init param
-
-`init` argument can be extends with following optional properties
+`*init` argument can be extends with following optional properties
 
 | Prop            | Type       |  Note                                                                                    |
 |-----------------|------------|------------------------------------------------------------------------------------------|
