@@ -48,6 +48,12 @@ fetchjson('DELETE https://fake-api.io/v1/users/1')
 // Set a default hostname
 fetchjson('v1/users', { limit: 10 }, { hostname: 'https://fake-api.io' });
 
+// Retrieve http response 
+fetchjson('https://fake-api.io/v1/users', { limit: 10 })
+  .then(payload => {
+    const header = payload._response.headers.get('x-powered-by') || 'Unknow';
+    console.log(`Powered by ${header}`),
+  });
 ```
 
 ### Params
@@ -70,16 +76,11 @@ fetchjson(url, data, init);
 |-----------------|------------|------------------------------------------------------------------------------------------|
 | `hostname`      | `string`   | Prepend URL with hostname if url don't start by a domain                                 |
 | `authorization` | `string`   | Authorization header <br />Ignored if url don't start by `hostname` property             |
-| `grabResponse`  | `function` | callback to grab the response                                                            |
     
 ```javascript
 const init = {
  hostname: 'https://fake-api.io',
  authorization: 'Bearer API_KEY',
- grapResponse: response => {
-   const header = response.headers.get('x-powered-by') || 'Unknow';
-   console.log(`Powered by ${header}`),
- }
 };
 
 // Endpoint will be prepend with hostname
@@ -92,4 +93,4 @@ fetchjson('https://vendor-api.io/v1/my-account', init);
 
 ### Return value
 
-JSON response - [more infos](https://developer.mozilla.org/en-US/docs/Web/API/Body/json)
+Promise resolve with json payload
