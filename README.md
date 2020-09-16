@@ -4,7 +4,7 @@
 [![Coverage](https://img.shields.io/codecov/c/github/jellyfish-commuting/fetchjson)](https://codecov.io/gh/jellyfish-commuting/fetchjson)
 [![Downloads](https://img.shields.io/npm/dt/@jellyfish-commuting/fetchjson)](https://www.npmjs.com/package/@jellyfish-commuting/fetchjson)
 
-__*for internal used only - Just draft idea to easily fetch API in our apps*__
+__*for internal use only - Just draft idea to easily fetch API in our apps*__
 
 # fetchjson
 Fetch wrapper to easily request an API, simply create a native fetch initialized with :
