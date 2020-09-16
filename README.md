@@ -64,11 +64,11 @@ fetchjson('https://fake-api.io/v1/users')
 fetchjson(url, data, init);
 ```
 
-| Prop      | Type     |  Note                                                                                                                           |
-|-----------|----------|---------------------------------------------------------------------------------------------------------------------------------|
-| `url`     | `string` | URL to fetch <br />Could be prefixed by a http method `fetchjson('POST https://fake-api.io/v1/users')`                          |
-| `data`    | `object` | queryString or Body param according http method                                                                                 |
-| `init`(1) | `object` | Init arg passed to native fetch - [see fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
+| Prop               | Type     |  Note                                                                                                                           |
+|--------------------|----------|---------------------------------------------------------------------------------------------------------------------------------|
+| `url`              | `string` | URL to fetch <br />Could be prefixed by a http method `fetchjson('POST https://fake-api.io/v1/users')`                          |
+| `data`             | `object` | queryString or Body param according http method                                                                                 |
+| `init`<sup>1</sup> | `object` | Init arg passed to native fetch - [see fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
 
 (1) `init` argument can be extends with following optional properties
 
