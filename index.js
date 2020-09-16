@@ -60,7 +60,6 @@ function fetchjson(endpoint, data, options = {}) {
   const {
     hostname,
     authorization,
-    grabResponse = () => null,
     headers,
     ...init
   } = options;
@@ -115,24 +114,22 @@ function fetchjson(endpoint, data, options = {}) {
   // Return native fetch
   // eslint-disable-next-line no-undef
   return fetch(url, params)
-    // Get response
-    .then(response => {
-      // Grab response
-      grabResponse(response);
+    // Return response in JSON
+    .then(response => response.json().then(payload => {
+      // Error ?
+      if (!response.ok) {
+        const error = new Error(payload.message || HTTP_ERRORS[response.status]);
+        error.status = response.status;
 
-      // Return response in JSON
-      return response.json().then(payload => {
-        // Error ?
-        if (!response.ok) {
-          const error = new Error(payload.message || HTTP_ERRORS[response.status]);
-          error.status = response.status;
+        throw error;
+      }
 
-          throw error;
-        }
+      // Add non enumerable _response property
+      Object.defineProperty(payload, '_response', { get: () => response });
 
-        return payload;
-      });
-    });
+      // Return JSON payload
+      return payload;
+    }));
 }
 
 // Export

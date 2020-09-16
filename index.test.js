@@ -50,16 +50,12 @@ describe('fetchjson', () => {
   });
 
   // Callback
-  it('expect grab response while fetching API', async () => {
-    // Init flag
-    let response = null;
-
+  it('expect response while fetching API', async () => {
     // Fetch
-    // eslint-disable-next-line no-return-assign
-    await fetchjson('https://reqres.in/api/users', { per_page: 1 }, { grabResponse: r => response = r });
+    const payload = await fetchjson('https://reqres.in/api/users', { per_page: 1 });
 
     // Tests
-    expect(response).toEqual(expect.objectContaining({
+    expect(payload._response).toEqual(expect.objectContaining({
       ok: expect.any(Boolean),
       status: expect.any(Number),
     }));
