@@ -66,9 +66,9 @@ fetchjson(url, data, init);
 |--------|----------|---------------------------------------------------------------------------------------------------------------------------------|
 | `url`  | `string` | URL to fetch <br />Could be prefixed by a http method `fetchjson('POST https://fake-api.io/v1/users')`                          |
 | `data` | `object` | queryString or Body param according http method                                                                                 |
-| `init` | `object` | Init arg passed to native fetch - [see fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
+| `init*` | `object` | Init arg passed to native fetch - [see fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
 
-### Extra params
+#### *init param
 
 `init` argument can be extends with following optional properties
 
@@ -76,6 +76,7 @@ fetchjson(url, data, init);
 |-----------------|------------|------------------------------------------------------------------------------------------|
 | `hostname`      | `string`   | Prepend URL with hostname if url don't start by a domain                                 |
 | `authorization` | `string`   | Authorization header <br />Ignored if url don't start by `hostname` property             |
+      
     
 ```javascript
 const init = {
