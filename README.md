@@ -31,27 +31,29 @@ const params = { limit: 10 };
 fetchjson('https://fake-api.io/v1/users', params)
   .then(payload => console.log(payload));
 
+// Init params
+const init = {
+ hostname: 'https://fake-api.io',
+ authorization: 'Bearer API_KEY',
+};
+
 // Create
 const data = { firstname: 'John', lastname: 'Doe' };
-fetchjson('POST https://fake-api.io/v1/users', data)
+fetchjson('POST v1/users', data, init)
   .then(({ id )} => console.log(`User #${id} created successfully !`));
 
 // Update
 data.firstname = 'Johnna';
-fetchjson('PUT https://fake-api.io/v1/users/1', data)
+fetchjson('PUT v1/users/1', data, init)
   .then(() => console.log('User updated successfully !'));
 
 // Delete
-fetchjson('DELETE https://fake-api.io/v1/users/1')
+fetchjson('DELETE v1/users/1', null, init)
   .then(() => console.log('User deleted successfully !'));
-
-// Set a default hostname
-const init = { hostname: 'https://fake-api.io' };
-fetchjson('v1/users', params, init);
 
 // Retrieve http response 
 // payload has a not enumerable prop "_response"
-fetchjson('https://fake-api.io/v1/users')
+fetchjson('v1/users', null, init)
   .then(payload => {
     const header = payload._response.headers.get('x-powered-by');
     console.log(`Powered by ${header || 'Unknow'}`),
