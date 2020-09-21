@@ -26,16 +26,15 @@ npm install @jellyfish-commuting/fetchjson
 ```javascript
 import fetchjson from '@jellyfish-commuting/fetchjson';
 
-// Fetch data with query params: https://fake-api.io/users?limit=10
-const params = { limit: 10 };
-fetchjson('https://fake-api.io/v1/users', params)
-  .then(payload => console.log(payload));
-
 // Init params
 const init = {
  hostname: 'https://fake-api.io',
  authorization: 'Bearer API_KEY',
 };
+
+// Fetch
+fetchjson('v1/users', { limit: 10 }, init)
+  .then(payload => console.log(payload));
 
 // Create
 const data = { firstname: 'John', lastname: 'Doe' };
