@@ -32,7 +32,7 @@ const init = {
  authorization: 'Bearer API_KEY',
 };
 
-// Fetch
+// Fetch (https://fake-api.io/v1/users?limit=10)
 fetchjson('v1/users', { limit: 10 }, init)
   .then(payload => console.log(payload));
 
