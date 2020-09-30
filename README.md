@@ -10,7 +10,7 @@ __*for internal use only - Just draft idea to easily fetch API in our apps*__
 Fetch wrapper to easily request an API, simply create a native fetch initialized with :
 - header `Content-Type=application/json`
 - default hostname & authorization credentials params
-- optional method prefix `fetchjson('POST https://fake-api.io/v1/users')`
+- optional method prefix
 
 ### Install
 
