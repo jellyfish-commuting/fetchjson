@@ -90,7 +90,7 @@ function fetchjson(endpoint, data, options = {}) {
   if (hostname) {
     // Preprend hostname ?
     if (!url.startsWith('https://')) {
-      url = `${hostname}/${_trimStart(url, '/')}`;
+      url = `${_trimStart(hostname, '/')}/${_trimStart(url, '/')}`;
     }
 
     // Add credentials ?
@@ -118,7 +118,7 @@ function fetchjson(endpoint, data, options = {}) {
     .then(response => response.json().then(payload => {
       // Error ?
       if (!response.ok) {
-        const error = new Error(payload.message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+        const error = new Error(payload?.message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
         error.status = response.status;
 
         throw error;
