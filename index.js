@@ -115,21 +115,27 @@ function fetchjson(endpoint, data, options = {}) {
   // eslint-disable-next-line no-undef
   return fetch(url, params)
     // Return response in JSON
-    .then(response => response.json().then(payload => {
-      // Error ?
-      if (!response.ok) {
-        const error = new Error((payload || {}).message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
-        error.status = response.status;
-
-        throw error;
+    .then(response => {
+      if (response.status === 204) {
+        return Object.defineProperty({}, '_response', { get: () => response });
       }
 
-      // Add non enumerable _response property
-      Object.defineProperty(payload, '_response', { get: () => response });
+      return response.json().then(payload => {
+        // Error ?
+        if (!response.ok) {
+          const error = new Error((payload || {}).message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+          error.status = response.status;
 
-      // Return JSON payload
-      return payload;
-    }));
+          throw error;
+        }
+
+        // Add non enumerable _response property
+        Object.defineProperty(payload, '_response', { get: () => response });
+
+        // Return JSON payload
+        return payload;
+      });
+    });
 }
 
 // Export
