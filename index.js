@@ -124,7 +124,7 @@ function fetchjson(endpoint, data, options = {}) {
         // Error ?
         if (!response.ok) {
           const error = new Error((payload || {}).message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
-          error.status = response.status;
+          error.code = response.status;
 
           throw error;
         }
