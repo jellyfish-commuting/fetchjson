@@ -1,4 +1,4 @@
-const { _queryString, _trimStart } = require('@jellyfish-commuting/helpers');
+const { _queryString, _trimStart, _trimEnd } = require('@jellyfish-commuting/helpers');
 
 // Default http error message
 const HTTP_ERRORS = {
@@ -90,7 +90,7 @@ function fetchjson(endpoint, data, options = {}) {
   if (hostname) {
     // Preprend hostname ?
     if (!url.startsWith('https://')) {
-      url = `${_trimStart(hostname, '/')}/${_trimStart(url, '/')}`;
+      url = `${_trimEnd(hostname, '/')}/${_trimStart(url, '/')}`;
     }
 
     // Add credentials ?
