@@ -36,23 +36,26 @@ const init = {
 fetchjson('v1/users', { limit: 10 }, init)
   .then(payload => console.log(payload));
 
+// Using by a custom wrapper
+const myfetch = (url, data, params) => fetchjson(url, data, { ...params, ...init });
+
 // Create
 const data = { firstname: 'John', lastname: 'Doe' };
-fetchjson('POST v1/users', data, init)
+myfetch('POST v1/users', data)
   .then(({ id )} => console.log(`User #${id} created successfully !`));
 
 // Update
 data.firstname = 'Johnna';
-fetchjson('PUT v1/users/1', data, init)
+myfetch('PUT v1/users/1', data)
   .then(() => console.log('User updated successfully !'));
 
 // Delete
-fetchjson('DELETE v1/users/1', null, init)
+myfetch('DELETE v1/users/1', null)
   .then(() => console.log('User deleted successfully !'));
 
 // Retrieve http response 
 // payload has a not enumerable prop "_response"
-fetchjson('v1/users', null, init)
+myfetch('v1/users')
   .then(payload => {
     const header = payload._response.headers.get('x-powered-by');
     console.log(`Powered by ${header || 'Unknow'}`),
