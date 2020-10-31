@@ -50,7 +50,7 @@ myfetch('PUT v1/users/1', data)
   .then(() => console.log('User updated successfully !'));
 
 // Delete
-myfetch('DELETE v1/users/1', null)
+myfetch('DELETE v1/users/1')
   .then(() => console.log('User deleted successfully !'));
 
 // Retrieve http response 
