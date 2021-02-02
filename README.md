@@ -1,8 +1,8 @@
-[![Version](https://img.shields.io/npm/v/@jellyfish-commuting/fetchjson)](https://www.npmjs.com/package/@jellyfish-commuting/fetchjson)
-[![Licence](https://img.shields.io/npm/l/@jellyfish-commuting/fetchjson)](https://en.wikipedia.org/wiki/MIT_license)
-[![Build](https://img.shields.io/travis/jellyfish-commuting/fetchjson)](https://travis-ci.org/github/jellyfish-commuting/fetchjson)
-[![Coverage](https://img.shields.io/codecov/c/github/jellyfish-commuting/fetchjson)](https://codecov.io/gh/jellyfish-commuting/fetchjson)
-[![Downloads](https://img.shields.io/npm/dt/@jellyfish-commuting/fetchjson)](https://www.npmjs.com/package/@jellyfish-commuting/fetchjson)
+[![Version](https://img.shields.io/npm/v/@jollie/fetchjson)](https://www.npmjs.com/package/@jollie/fetchjson)
+[![Licence](https://img.shields.io/npm/l/@jollie/fetchjson)](https://en.wikipedia.org/wiki/MIT_license)
+[![Build](https://img.shields.io/travis/thejellyfish/fetchjson)](https://travis-ci.org/github/thejellyfish/fetchjson)
+[![Coverage](https://img.shields.io/codecov/c/github/thejellyfish/fetchjson)](https://codecov.io/gh/thejellyfish/fetchjson)
+[![Downloads](https://img.shields.io/npm/dt/@jollie/fetchjson)](https://www.npmjs.com/package/@jollie/fetchjson)
 
 __*for internal use only - Just draft idea to easily fetch API in our apps*__
 
@@ -15,16 +15,16 @@ Fetch wrapper to easily request an API, simply create a native fetch initialized
 ### Install
 
 ```bash
-yarn add @jellyfish-commuting/fetchjson
+yarn add @jollie/fetchjson
 ```
 or
 ```bash
-npm install @jellyfish-commuting/fetchjson
+npm install @jollie/fetchjson
 ```
 ### Usage
 
 ```javascript
-import fetchjson from '@jellyfish-commuting/fetchjson';
+import fetchjson from '@jollie/fetchjson';
 
 // Init params
 const init = {

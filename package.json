@@ -1,5 +1,5 @@
 {
-  "name": "@jellyfish-commuting/fetchjson",
+  "name": "@jollie/fetchjson",
   "description": "Fetch wrapper to easily request an API",
   "keywords": [
     "fetch",
@@ -14,7 +14,7 @@
     "coverage": "codecov"
   },
   "dependencies": {
-    "@jellyfish-commuting/helpers": "^1"
+    "@jollie/helpers": "^1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
@@ -29,12 +29,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jellyfish-commuting/fetchjson.git"
+    "url": "git://github.com/thejellyfish/fetchjson.git"
   },
   "bugs": {
-    "url": "https://github.com/jellyfish-commuting/fetchjson/issues"
+    "url": "https://github.com/thejellyfish/fetchjson/issues"
   },
-  "homepage": "https://github.com/jellyfish-commuting/fetchjson#readme",
+  "homepage": "https://github.com/thejellyfish/fetchjson#readme",
   "publishConfig": {
     "access": "public"
   },
