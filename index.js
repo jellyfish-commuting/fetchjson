@@ -1,4 +1,4 @@
-const { _queryString, _trimStart, _trimEnd } = require('@jollie/helpers');
+const { _queryString, _trimStart } = require('@jollie/helpers');
 
 // Default http error message
 const HTTP_ERRORS = {
@@ -55,88 +55,87 @@ const HTTP_ERRORS = {
 };
 
 // Create native fetch
-function fetchjson(endpoint, data, options = {}) {
-  // Extract options
-  const {
-    hostname,
-    authorization,
-    headers,
-    ...init
-  } = options;
+function makeFetch(domain, token) {
+  return (endpoint, data, options = {}) => {
+    // Init params
+    const params = {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    };
 
-  // Init params
-  const params = {
-    ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-  };
+    // Init url
+    // eslint-disable-next-line prefer-const
+    let [prefix, rest] = endpoint.split(' ');
 
-  // Init url
-  // eslint-disable-next-line prefer-const
-  let [prefix, url] = endpoint.split(' ');
+    // No method prefix ?
+    if (!rest) {
+      rest = prefix;
+    } else {
+      params.method = prefix;
+    }
 
-  // Endpoint prefix ?
-  if (url) {
-    params.method = prefix;
+    // Subdomain ?
+    let [subdomain, url] = rest.split('@');
 
-  // ... no
-  } else {
-    url = prefix;
-  }
+    if (!url) {
+      url = subdomain;
+      subdomain = '';
+    } else {
+      subdomain += '.';
+    }
 
-  // Has default hostname ?
-  if (hostname) {
     // Preprend hostname ?
     if (!url.startsWith('https://')) {
-      url = `${_trimEnd(hostname, '/')}/${_trimStart(url, '/')}`;
+      url = `https://${subdomain}${domain}/${_trimStart(url, '/')}`;
+      params.headers.Authorization = `Bearer ${token}`;
+
+    // Add token ?
+    } else if (url.includes(domain)) {
+      params.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Add credentials ?
-    if (authorization && url.startsWith(hostname)) {
-      params.headers.Authorization = authorization;
-    }
-  }
+    // Data ?
+    if (data) {
+      // Query params ?
+      if (!params.method || ['GET', 'HEAD', 'OPTIONS'].includes(params.method)) {
+        url += `?${_queryString(data)}`;
 
-  // Data ?
-  if (data) {
-    // Query params ?
-    if (!params.method || ['GET', 'HEAD', 'OPTIONS'].includes(params.method)) {
-      url += `?${_queryString(data)}`;
-
-    // Stringify data
-    } else {
-      params.body = JSON.stringify(data);
-    }
-  }
-
-  // Return native fetch
-  // eslint-disable-next-line no-undef
-  return fetch(url, params)
-    // Return response in JSON
-    .then(response => {
-      if (response.status === 204) {
-        return Object.defineProperty({}, '_response', { get: () => response });
+      // Stringify data
+      } else {
+        params.body = JSON.stringify(data);
       }
+    }
 
-      return response.json().then(payload => {
-        // Error ?
-        if (!response.ok) {
-          const error = new Error((payload || {}).message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
-          error.code = response.status;
-
-          throw error;
+    // Return native fetch
+    // eslint-disable-next-line no-undef
+    return fetch(url, params)
+      // Return response in JSON
+      .then(response => {
+        if (response.status === 204) {
+          return Object.defineProperty({}, '_response', { get: () => response });
         }
 
-        // Add non enumerable _response property
-        Object.defineProperty(payload, '_response', { get: () => response });
+        return response.json().then(payload => {
+          // Error ?
+          if (!response.ok) {
+            const error = new Error((payload || {}).message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+            error.code = response.status;
 
-        // Return JSON payload
-        return payload;
+            throw error;
+          }
+
+          // Add non enumerable _response property
+          Object.defineProperty(payload, '_response', { get: () => response });
+
+          // Return JSON payload
+          return payload;
+        });
       });
-    });
+  };
 }
 
 // Export
-module.exports = fetchjson;
+module.exports = makeFetch;
