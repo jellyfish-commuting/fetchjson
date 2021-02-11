@@ -120,7 +120,10 @@ module.exports = (domain, token) => (endpoint, data, options = {}) => {
       return response.json().then(payload => {
         // Error ?
         if (!response.ok) {
-          const error = new Error(payload?.message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+          // Set error message from payload or default message
+          const error = Error(typeof payload === 'string' || payload instanceof String
+            ? payload
+            : payload?.message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
           error.code = response.status;
 
           throw error;
