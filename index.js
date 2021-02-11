@@ -124,8 +124,15 @@ module.exports = (domain, token) => (endpoint, data, options = {}) => {
           const error = Error(typeof payload === 'string' || payload instanceof String
             ? payload
             : payload?.message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+
+          // Error code
           error.code = response.status;
 
+          // Add payload and response
+          error.payload = payload;
+          error._response = response;
+
+          // ... throw error
           throw error;
         }
 
