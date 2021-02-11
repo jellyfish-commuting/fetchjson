@@ -9,7 +9,7 @@ __*for internal use only - Just draft idea to easily fetch API in our apps*__
 # fetchjson
 Fetch wrapper to easily request an API, simply create a native fetch initialized with :
 - header `Content-Type=application/json`
-- default hostname & authorization credentials params
+- default hostname & authorization credentials
 - optional method prefix
 
 ### Install
@@ -24,38 +24,26 @@ npm install @jollie/fetchjson
 ### Usage
 
 ```javascript
-import fetchjson from '@jollie/fetchjson';
+import makeFetch from '@jollie/fetchjson';
 
-// Init params
-const init = {
- hostname: 'https://fake-api.io',
- authorization: 'Bearer API_KEY',
-};
-
-// Fetch (https://fake-api.io/v1/users?limit=10)
-fetchjson('v1/users', { limit: 10 }, init)
-  .then(payload => console.log(payload));
-
-// Using by a custom wrapper
-const myfetch = (url, data, params) => fetchjson(url, data, { ...params, ...init });
+// Create fetchjson to consume your API
+const fetchjson = makeFetch('api.vendor-domain.io', 'API_KEY');
 
 // Create
-const data = { firstname: 'John', lastname: 'Doe' };
-myfetch('POST v1/users', data)
+fetchjson('POST v1/users', { firstname: 'John', lastname: 'Doe' })
   .then(({ id )} => console.log(`User #${id} created successfully !`));
 
 // Update
-data.firstname = 'Johnna';
-myfetch('PUT v1/users/1', data)
+fetchjson('PUT v1/users/1', { firstname: 'Johnna' })
   .then(() => console.log('User updated successfully !'));
 
 // Delete
-myfetch('DELETE v1/users/1')
+fetchjson('DELETE v1/users/1')
   .then(() => console.log('User deleted successfully !'));
 
 // Retrieve http response 
 // payload has a not enumerable prop "_response"
-myfetch('v1/users')
+fetchjson('v1/users')
   .then(payload => {
     const header = payload._response.headers.get('x-powered-by');
     console.log(`Powered by ${header || 'Unknow'}`),
@@ -63,6 +51,18 @@ myfetch('v1/users')
 ```
 
 ### Params
+
+```javascript
+const fetchjson = makeFetch(domain, api_key);
+```
+
+| Prop            | Type       |  Note                                                                                    |
+|-----------------|------------|------------------------------------------------------------------------------------------|
+| `domain`        | `string`   | domain of your api                                                                       |
+| `api_key`       | `string`   | Token for Authorization header `Bearer {api_key}`                                        |
+      
+
+makeFetch return function with following params    
 
 ```javascript
 fetchjson(url, data, init);
@@ -73,28 +73,6 @@ fetchjson(url, data, init);
 | `url`              | `string` | URL to fetch <br />Could be prefixed by a http method `fetchjson('POST https://fake-api.io/v1/users')`                          |
 | `data`             | `object` | queryString or Body param according http method                                                                                 |
 | `init`<sup>1</sup> | `object` | Init arg passed to native fetch - [see fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) |
-
-(1) `init` argument can be extends with following optional properties
-
-| Prop            | Type       |  Note                                                                                    |
-|-----------------|------------|------------------------------------------------------------------------------------------|
-| `hostname`      | `string`   | Prepend URL with hostname if url don't start by a domain                                 |
-| `authorization` | `string`   | Authorization header <br />Ignored if url don't start by `hostname` property             |
-      
-    
-```javascript
-const init = {
- hostname: 'https://fake-api.io',
- authorization: 'Bearer API_KEY',
-};
-
-// Endpoint will be prepend with hostname
-fetchjson('POST v1/users', { firstname: 'John' }, init);
-
-// Authorization will be ignored 
-// -> hostname is different than init.hostname
-fetchjson('https://vendor-api.io/v1/my-account', init);
-```
 
 ### Return value
 
