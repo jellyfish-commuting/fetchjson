@@ -55,87 +55,82 @@ const HTTP_ERRORS = {
 };
 
 // Create native fetch
-function makeFetch(domain, token) {
-  return (endpoint, data, options = {}) => {
-    // Init params
-    const params = {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-    };
+module.exports = (domain, token) => (endpoint, data, options = {}) => {
+  // Init params
+  const params = {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  };
 
-    // Init url
-    // eslint-disable-next-line prefer-const
-    let [prefix, rest] = endpoint.split(' ');
+  // Init url
+  // eslint-disable-next-line prefer-const
+  let [prefix, rest] = endpoint.split(' ');
 
-    // No method prefix ?
-    if (!rest) {
-      rest = prefix;
+  // No method prefix ?
+  if (!rest) {
+    rest = prefix;
+  } else {
+    params.method = prefix;
+  }
+
+  // Subdomain ?
+  let [subdomain, url] = rest.split('@');
+
+  if (!url) {
+    url = subdomain;
+    subdomain = '';
+  } else {
+    subdomain += '.';
+  }
+
+  // Preprend hostname ?
+  if (!url.startsWith('https://')) {
+    url = `https://${subdomain}${domain}/${_trimStart(url, '/')}`;
+    params.headers.Authorization = `Bearer ${token}`;
+
+  // Add token ?
+  } else if (url.includes(domain)) {
+    params.headers.Authorization = `Bearer ${token}`;
+  }
+
+  // Data ?
+  if (data) {
+    // Query params ?
+    if (!params.method || ['GET', 'HEAD', 'OPTIONS'].includes(params.method)) {
+      url += `?${_queryString(data)}`;
+
+    // Stringify data
     } else {
-      params.method = prefix;
+      params.body = JSON.stringify(data);
     }
+  }
 
-    // Subdomain ?
-    let [subdomain, url] = rest.split('@');
-
-    if (!url) {
-      url = subdomain;
-      subdomain = '';
-    } else {
-      subdomain += '.';
-    }
-
-    // Preprend hostname ?
-    if (!url.startsWith('https://')) {
-      url = `https://${subdomain}${domain}/${_trimStart(url, '/')}`;
-      params.headers.Authorization = `Bearer ${token}`;
-
-    // Add token ?
-    } else if (url.includes(domain)) {
-      params.headers.Authorization = `Bearer ${token}`;
-    }
-
-    // Data ?
-    if (data) {
-      // Query params ?
-      if (!params.method || ['GET', 'HEAD', 'OPTIONS'].includes(params.method)) {
-        url += `?${_queryString(data)}`;
-
-      // Stringify data
-      } else {
-        params.body = JSON.stringify(data);
+  // Return native fetch
+  // eslint-disable-next-line no-undef
+  return fetch(url, params)
+    // Return response in JSON
+    .then(response => {
+      if (response.status === 204) {
+        return Object.defineProperty({}, '_response', { get: () => response });
       }
-    }
 
-    // Return native fetch
-    // eslint-disable-next-line no-undef
-    return fetch(url, params)
-      // Return response in JSON
-      .then(response => {
-        if (response.status === 204) {
-          return Object.defineProperty({}, '_response', { get: () => response });
+      return response.json().then(payload => {
+        // Error ?
+        if (!response.ok) {
+          const error = new Error(payload?.message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+          error.code = response.status;
+
+          throw error;
         }
 
-        return response.json().then(payload => {
-          // Error ?
-          if (!response.ok) {
-            const error = new Error((payload || {}).message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
-            error.code = response.status;
+        // Add non enumerable _response property
+        Object.defineProperty(payload, '_response', { get: () => response });
 
-            throw error;
-          }
-
-          // Add non enumerable _response property
-          Object.defineProperty(payload, '_response', { get: () => response });
-
-          // Return JSON payload
-          return payload;
-        });
+        // Return JSON payload
+        return payload;
       });
-  };
-}
-
-// Export
-module.exports = makeFetch;
+    });
+};
