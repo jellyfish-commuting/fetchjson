@@ -128,8 +128,7 @@ module.exports = (domain, token) => (endpoint, data, options = {}) => {
           // Error code
           error.code = response.status;
 
-          // Add payload and response
-          error.payload = payload;
+          // Add response
           error._response = response;
 
           // ... throw error
