@@ -56,48 +56,45 @@ const HTTP_ERRORS = {
 };
 
 // Create native fetch
-function fetchjson(endpoint, data, options = {}) {
-  // Extract options
-  const {
-    hostname,
-    authorization,
-    headers,
-    ...init
-  } = options;
-
+module.exports = (domain, token) => (endpoint, data, options = {}) => {
   // Init params
   const params = {
-    ...init,
+    ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...headers,
+      ...options.headers,
     },
   };
 
   // Init url
   // eslint-disable-next-line prefer-const
-  let [prefix, url] = endpoint.split(' ');
+  let [prefix, rest] = endpoint.split(' ');
 
-  // Endpoint prefix ?
-  if (url) {
-    params.method = prefix;
-
-  // ... no
+  // No method prefix ?
+  if (!rest) {
+    rest = prefix;
   } else {
-    url = prefix;
+    params.method = prefix;
   }
 
-  // Has default hostname ?
-  if (hostname) {
-    // Preprend hostname ?
-    if (!url.startsWith('https://')) {
-      url = `${_trimEnd(hostname, '/')}/${_trimStart(url, '/')}`;
-    }
+  // Subdomain ?
+  let [subdomain, url] = rest.split('@');
 
-    // Add credentials ?
-    if (authorization && url.startsWith(hostname)) {
-      params.headers.Authorization = authorization;
-    }
+  if (!url) {
+    url = subdomain;
+    subdomain = '';
+  } else {
+    subdomain += '.';
+  }
+
+  // Preprend hostname ?
+  if (!url.startsWith('https://')) {
+    url = `https://${subdomain}${domain}/${_trimStart(url, '/')}`;
+    params.headers.Authorization = `Bearer ${token}`;
+
+  // Add token ?
+  } else if (url.includes(domain)) {
+    params.headers.Authorization = `Bearer ${token}`;
   }
 
   // Data ?
@@ -124,9 +121,18 @@ function fetchjson(endpoint, data, options = {}) {
       return response.json().then(payload => {
         // Error ?
         if (!response.ok) {
-          const error = new Error((payload || {}).message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+          // Set error message from payload or default message
+          const error = Error(typeof payload === 'string' || payload instanceof String
+            ? payload
+            : payload?.message || HTTP_ERRORS[response.status] || 'Unexpected error occurred');
+
+          // Error code
           error.code = response.status;
 
+          // Add response
+          error._response = response;
+
+          // ... throw error
           throw error;
         }
 
@@ -137,7 +143,4 @@ function fetchjson(endpoint, data, options = {}) {
         return payload;
       });
     });
-}
-
-// Export
-module.exports = fetchjson;
+};
