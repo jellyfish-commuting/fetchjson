@@ -1,5 +1,4 @@
-const queryString = require('query-string');
-const { _trimStart, _trimEnd } = require('@jellyfish-commuting/helpers');
+const { _queryString, _trimStart, _trimEnd } = require('@jellyfish-commuting/helpers');
 
 // Default http error message
 const HTTP_ERRORS = {
@@ -101,7 +100,7 @@ module.exports = (domain, token) => (endpoint, data, options = {}) => {
   if (data) {
     // Query params ?
     if (!params.method || ['GET', 'HEAD', 'OPTIONS'].includes(params.method)) {
-      url += `?${queryString.stringify(data)}`;
+      url += `?${_queryString(data)}`;
 
     // Stringify data
     } else {
