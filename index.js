@@ -87,13 +87,15 @@ module.exports = (domain, token) => (endpoint, data, options = {}) => {
   }
 
   // Preprend hostname ?
-  if (!url.startsWith('https://')) {
-    url = `https://${subdomain}${domain}/${_trimStart(url, '/')}`;
-    params.headers.Authorization = `Bearer ${token}`;
+  if (domain) {
+    if (!url.startsWith('https://')) {
+      url = `https://${subdomain}${domain}/${_trimStart(url, '/')}`;
+      params.headers.Authorization = `Bearer ${token}`;
 
-  // Add token ?
-  } else if (url.includes(domain)) {
-    params.headers.Authorization = `Bearer ${token}`;
+    // Add token ?
+    } else if (url.includes(domain)) {
+      params.headers.Authorization = `Bearer ${token}`;
+    }
   }
 
   // Data ?
