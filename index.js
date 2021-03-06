@@ -1,4 +1,4 @@
-const { _queryString, _trimStart } = require('@jollie/helpers');
+const { _queryString, _trimStart, _trimEnd } = require('@jellyfish-commuting/helpers');
 
 // Default http error message
 const HTTP_ERRORS = {
